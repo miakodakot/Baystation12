@@ -707,6 +707,12 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	user.client.view = viewsize
 	zoom = 1
 
+//[INF]
+	if(user.vision_cone_overlay)
+		var/mob/living/vision_cone_mob = user
+		vision_cone_mob.hide_cone()
+//[/INF]
+
 	var/viewoffset = WORLD_ICON_SIZE * tileoffset
 	switch(user.dir)
 		if (NORTH)
@@ -736,6 +742,13 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 /obj/item/proc/unzoom(var/mob/user)
 	if(!zoom)
 		return
+
+//[INF]
+	if(user.vision_cone_overlay)
+		var/mob/living/vision_cone_mob = user
+		vision_cone_mob.show_cone()
+//[/INF]
+
 	zoom = 0
 
 	GLOB.destroyed_event.unregister(src, src, /obj/item/proc/unzoom)

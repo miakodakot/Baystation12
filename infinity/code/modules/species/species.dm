@@ -4,3 +4,4 @@
 
 /datum/species
 	var/pulse_rate_mod = 1
+	var/have_vision_cone = TRUE
