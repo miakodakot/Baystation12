@@ -117,7 +117,7 @@
 
 	if(isnull(vision_cone_overlay))
 		vision_cone_overlay = new /obj/screen/fov()
-		client.screen |= vision_cone_overlay
+	client.screen |= vision_cone_overlay
 
 	if(resting || lying || client.eye != client.mob)
 		vision_cone_overlay.alpha = 0
