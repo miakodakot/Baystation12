@@ -14,15 +14,11 @@
 /proc/cone(turf/center, dir, list/list)
 	. = list()
 	for(var/turf/T in list)
-		if(T.InCone(center, dir))
+		if(T.InConeDirection(center, dir))
 			for(var/mob/M in T.contents)
 				. += M.InCone(center, dir)
 
-// Should return atoms that are in the cone
-/atom/proc/InCone(turf/center, dir)
-	return
-
-/turf/InCone(turf/center, dir)
+/turf/proc/InConeDirection(turf/center, dir)
 	if(get_dist(center, src) == 0 || src == center) return 0
 	var/d = get_dir(center, src)
 
@@ -37,11 +33,16 @@
 		return (dir & (NORTH|SOUTH)) ? 1 : 0
 	return (dir & (EAST|WEST)) ? 1 : 0
 
+// Should return atoms that are in the cone.
+/atom/proc/InCone(turf/center, dir)
+	SHOULD_CALL_PARENT(TRUE)
+	return list()
+
 /mob/dead/InCone(turf/center, dir)
-	return src
+	. = ..()
 
 /mob/InCone(turf/center, dir)
-	return src
+	. = ..() | src
 
 /mob/living/InCone(turf/center, dir)
 	. = ..()
