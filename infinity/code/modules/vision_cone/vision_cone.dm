@@ -84,6 +84,7 @@
 			return
 
 		vision_cone_overlay.dir = dir
+		vision_cone_overlay.screen_loc = "1:[-client.pixel_x],1:[-client.pixel_y]"
 		if(vision_cone_overlay.alpha)
 			var/turf/T = get_turf(src)
 			for(var/cone_atom in cone(T, reverse_direction(dir), get_rectangle_in_dir(T, client.view, reverse_direction(dir)) & oview(client.view, T)))

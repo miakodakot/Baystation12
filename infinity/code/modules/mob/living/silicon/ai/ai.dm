@@ -1,3 +1,6 @@
+/mob/living/silicon/ai
+	have_vision_cone = FALSE
+
 /mob/living/silicon/ai/proc/change_floor()
 	set category = "Silicon Commands"
 	set name = "MOOD: Change Floor"

@@ -1,5 +1,6 @@
 /mob/living/silicon/robot
 	icon_selected = 0
+	have_vision_cone = TRUE
 
 /mob/living/silicon/robot/choose_icon(triesleft, list/module_sprites)
 	set waitfor = 0
