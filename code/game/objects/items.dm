@@ -746,7 +746,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 //[INF]
 	if(user.vision_cone_overlay)
 		var/mob/living/vision_cone_mob = user
-		vision_cone_mob.show_cone()
+		vision_cone_mob.update_vision_cone()
 //[/INF]
 
 	zoom = 0

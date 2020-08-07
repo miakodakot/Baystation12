@@ -45,11 +45,6 @@
 
 /mob/living/InCone(turf/center, dir)
 	. = ..()
-	for(var/obj/item/grab/G in src)
-		if(src == G.affecting)
-			continue
-		else
-			. += src
 	if(pulling)
 		. += pulling
 
@@ -59,12 +54,12 @@
 /mob/living/update_vision_cone()
 	if(!have_vision_cone)
 		if(vision_cone_overlay)
-			hide_cone()
+			remove_cone()
 		return
 
 	for(var/obj/item/item in src)
 		if(item.zoom)
-			hide_cone()
+			remove_cone()
 			return
 
 	var/delay = 1 SECONDS
@@ -90,7 +85,7 @@
 			for(var/cone_atom in cone(T, reverse_direction(dir), get_rectangle_in_dir(T, client.view, reverse_direction(dir)) & oview(client.view, T)))
 				add_to_mobs_hidden_atoms(cone_atom)
 
-/mob/proc/add_to_mobs_hidden_atoms(atom/A)
+/mob/living/proc/add_to_mobs_hidden_atoms(atom/A)
 	var/image/I
 	I = image("split", A)
 	I.override = TRUE
@@ -99,8 +94,17 @@
 	if(ismob(A))
 		var/mob/hidden_mob = A
 		client.hidden_mobs += hidden_mob
-		if(pulling == hidden_mob)//If we're pulling them we don't want them to be invisible, too hard to play like that.
+		if(pulling && (pulling == hidden_mob || pulling == hidden_mob.buckled))//If we're pulling them we don't want them to be invisible, too hard to play like that.
 			I.override = FALSE
+			return
+		for(var/obj/item/grab/G in src)
+			if(A == G.affecting)
+				I.override = FALSE
+				return
+		for(var/obj/item/grab/G in A)
+			if(src == G.affecting)
+				I.override = FALSE
+				return
 
 /mob/living/proc/SetFov(var/n)
 	if(!have_vision_cone)
@@ -139,6 +143,10 @@
 /mob/living/proc/hide_cone()
 	if(vision_cone_overlay)
 		vision_cone_overlay.alpha = 0
+
+/mob/living/proc/remove_cone()
+	if(vision_cone_overlay)
+		client.screen -= vision_cone_overlay
 
 /mob/living/set_dir()
 	. = ..()
